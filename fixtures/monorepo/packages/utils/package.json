@@ -1,0 +1,8 @@
+{
+  "name": "@acme/utils",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./math": "./src/math.js"
+  }
+}

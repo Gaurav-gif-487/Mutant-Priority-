@@ -1,0 +1,92 @@
+# Copy this into YOUR repo as .github/workflows/mutant-priority.yml.
+# It is not run by this repo's own CI — it's a template for consumers.
+#
+# What it does on every PR touching JS/TS source:
+#   1. Runs `mutant-priority validate` (entry + test command auto-detected —
+#      see README; pass --entry/--test-cmd explicitly if auto-detect can't
+#      find them in your repo's layout).
+#   2. Posts a compact Markdown summary as a PR comment and in the job
+#      summary tab.
+#   3. Uploads the full HTML report (every mutant, killed/survived) as a
+#      downloadable build artifact.
+#
+# Adjust --files-per-strategy / --mutants-per-file for your CI budget —
+# these numbers are intentionally small (fast, cheap) starting points,
+# not a recommendation to stop there. See README's "How much sample size
+# do you actually need" note before treating a small-sample result as
+# a real signal.
+
+name: Mutant Priority Check
+
+on:
+  pull_request:
+    paths:
+      - "**/*.ts"
+      - "**/*.js"
+      - "**/*.tsx"
+      - "**/*.jsx"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  mutant-priority:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      # Swap this for `npm install -g mutant-priority` once you're pinning
+      # a published version instead of building from a vendored/cloned copy.
+      - name: Install mutant-priority
+        run: npm install -g mutant-priority
+
+      - name: Run mutation-sample validation
+        run: |
+          mutant-priority validate . \
+            --files-per-strategy 5 \
+            --mutants-per-file 2 \
+            --json mutant-report.json \
+            --report mutant-report.html \
+            --markdown mutant-report.md
+        # Auto-detected --entry/--test-cmd fail loudly with an actionable
+        # error if they can't find anything — no need for `continue-on-error`
+        # to hide a real config problem, but a genuinely failing baseline
+        # test suite is also a real signal, not a flake, so this isn't
+        # forced green either.
+
+      - name: Add to job summary
+        if: always() && hashFiles('mutant-report.md') != ''
+        run: cat mutant-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the PR
+        if: always() && hashFiles('mutant-report.md') != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const body = fs.readFileSync('mutant-report.md', 'utf8');
+            const marker = '### mutant-priority';
+            const { data: comments } = await github.rest.issues.listComments({
+              ...context.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find((c) => c.body.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ ...context.repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
+            }
+
+      - name: Upload full HTML report
+        if: always() && hashFiles('mutant-report.html') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutant-priority-report
+          path: mutant-report.html

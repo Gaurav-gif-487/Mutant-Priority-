@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>mutant-priority report — src/index.js</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+  h1 { font-size: 1.4rem; margin-bottom: 0.1rem; }
+  .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .meta code { background: rgba(127,127,127,0.15); padding: 0.1em 0.4em; border-radius: 4px; }
+  .cards { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+  .card { border: 1px solid rgba(127,127,127,0.3); border-radius: 10px; padding: 1rem 1.25rem; min-width: 190px; flex: 1; }
+  .card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+  .strategy-name { font-weight: 600; font-size: 1.05rem; }
+  .badge { font-size: 0.7rem; background: rgba(200,150,0,0.2); color: #a66a00; padding: 0.15em 0.5em; border-radius: 999px; }
+  .kill-rate { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .kill-rate.good { color: #1a7f37; }
+  .kill-rate.mid { color: #9a6700; }
+  .kill-rate.low { color: #cf222e; }
+  .kill-rate.na { color: #666; }
+  .card-row { display: flex; justify-content: space-between; font-size: 0.85rem; color: #555; }
+  .card-row.error { color: #cf222e; }
+  .verdict { background: rgba(127,127,127,0.08); border-left: 4px solid #666; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; white-space: pre-wrap; font-size: 0.9rem; }
+  .note { font-size: 0.85rem; color: #666; }
+  details { border: 1px solid rgba(127,127,127,0.25); border-radius: 8px; margin-bottom: 0.75rem; padding: 0.5rem 0.75rem; }
+  summary { cursor: pointer; font-weight: 600; padding: 0.25rem 0; }
+  table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.85rem; }
+  th, td { text-align: left; padding: 0.35rem 0.5rem; border-bottom: 1px solid rgba(127,127,127,0.15); }
+  tr.killed td:last-child { color: #1a7f37; font-weight: 600; }
+  tr.survived td:last-child { color: #cf222e; font-weight: 600; }
+  tr.error td:last-child { color: #9a6700; font-weight: 600; }
+  td.none { color: #888; font-style: italic; }
+  footer { margin-top: 2rem; font-size: 0.75rem; color: #888; }
+</style>
+</head>
+<body>
+  <h1>mutant-priority report</h1>
+  <div class="meta">
+    entry <code>src/index.js</code> &middot;
+    test command <code>npm test</code> &middot;
+    generated 2026-09-06T02:41:59.136Z
+  </div>
+
+  <div class="cards">
+    
+      <div class="card">
+        <div class="card-head">
+          <span class="strategy-name">fanOut</span>
+          <span class="badge">small sample</span>
+        </div>
+        <div class="kill-rate good">100.0%</div>
+        <div class="card-row"><span>Killed</span><span>4 / 4</span></div>
+        <div class="card-row"><span>95% CI</span><span>51.0% – 100.0%</span></div>
+        <div class="card-row"><span>Files sampled</span><span>3</span></div>
+        
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="strategy-name">distFromEntry</span>
+          <span class="badge">small sample</span>
+        </div>
+        <div class="kill-rate good">100.0%</div>
+        <div class="card-row"><span>Killed</span><span>6 / 6</span></div>
+        <div class="card-row"><span>95% CI</span><span>61.0% – 100.0%</span></div>
+        <div class="card-row"><span>Files sampled</span><span>3</span></div>
+        
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="strategy-name">random</span>
+          <span class="badge">small sample</span>
+        </div>
+        <div class="kill-rate good">100.0%</div>
+        <div class="card-row"><span>Killed</span><span>4 / 4</span></div>
+        <div class="card-row"><span>95% CI</span><span>51.0% – 100.0%</span></div>
+        <div class="card-row"><span>Files sampled</span><span>3</span></div>
+        
+      </div>
+  </div>
+
+  <div class="verdict">On THIS repo and THIS sample (not a controlled experiment — treat as directional even when distinguishable): &quot;fanOut&quot; (100.0%, 95% CI [51.0%, 100.0%]) and &quot;random&quot; (100.0%, 95% CI [51.0%, 100.0%]) have OVERLAPPING confidence intervals — at this sample size the difference between them is not statistically distinguishable from noise. Don't read the raw percentages as a ranking; increase --mutants-per-file or --files-per-strategy to narrow the intervals. Note: &quot;fanOut&quot; (n=4), &quot;distFromEntry&quot; (n=6), &quot;random&quot; (n=4) have fewer than 8 mutants — their intervals are wide enough that this run barely constrains them. A lower kill rate means that strategy's top-ranked files had more surviving mutants relative to sample size — i.e. it's the strategy more likely to be pointing a mutation budget at under-tested code, if the difference holds up. The source study found this pattern was NOT consistent across 4 unrelated repos for distFromEntry, and fan-out only replicated in 1 of 3 repos where it was tested — so even a statistically clean result here is one more data point, not proof it generalizes.</div>
+  
+
+  <h2>Mutant-level detail</h2>
+  
+      <details>
+        <summary>fanOut — 4 mutant(s)</summary>
+        <table>
+          <thead><tr><th>File</th><th>Line</th><th>Mutation</th><th>Result</th></tr></thead>
+          <tbody><tr class="killed"><td>src/mathUtils.js</td><td>2</td><td>ArithmeticOperatorReplacement</td><td>Killed</td></tr>
+<tr class="killed"><td>src/mathUtils.js</td><td>2</td><td>EqualityReplacement</td><td>Killed</td></tr>
+<tr class="killed"><td>src/stringUtils.js</td><td>2</td><td>EqualityReplacement</td><td>Killed</td></tr>
+<tr class="killed"><td>src/stringUtils.js</td><td>2</td><td>LogicalConnectorFlip</td><td>Killed</td></tr></tbody>
+        </table>
+      </details>
+
+      <details>
+        <summary>distFromEntry — 6 mutant(s)</summary>
+        <table>
+          <thead><tr><th>File</th><th>Line</th><th>Mutation</th><th>Result</th></tr></thead>
+          <tbody><tr class="killed"><td>src/mathUtils.js</td><td>2</td><td>ArithmeticOperatorReplacement</td><td>Killed</td></tr>
+<tr class="killed"><td>src/mathUtils.js</td><td>2</td><td>EqualityReplacement</td><td>Killed</td></tr>
+<tr class="killed"><td>src/stringUtils.js</td><td>2</td><td>EqualityReplacement</td><td>Killed</td></tr>
+<tr class="killed"><td>src/stringUtils.js</td><td>2</td><td>LogicalConnectorFlip</td><td>Killed</td></tr>
+<tr class="killed"><td>src/format.js</td><td>5</td><td>LogicalConnectorFlip</td><td>Killed</td></tr>
+<tr class="killed"><td>src/format.js</td><td>5</td><td>EqualityReplacement</td><td>Killed</td></tr></tbody>
+        </table>
+      </details>
+
+      <details>
+        <summary>random — 4 mutant(s)</summary>
+        <table>
+          <thead><tr><th>File</th><th>Line</th><th>Mutation</th><th>Result</th></tr></thead>
+          <tbody><tr class="killed"><td>src/format.js</td><td>5</td><td>LogicalConnectorFlip</td><td>Killed</td></tr>
+<tr class="killed"><td>src/format.js</td><td>5</td><td>EqualityReplacement</td><td>Killed</td></tr>
+<tr class="killed"><td>src/stringUtils.js</td><td>2</td><td>EqualityReplacement</td><td>Killed</td></tr>
+<tr class="killed"><td>src/stringUtils.js</td><td>2</td><td>LogicalConnectorFlip</td><td>Killed</td></tr></tbody>
+        </table>
+      </details>
+
+  <footer>Generated by mutant-priority. This is one small, disclosed sample against your real test suite — treat it as a pointer to where to spend a mutation budget, not a certification.</footer>
+</body>
+</html>

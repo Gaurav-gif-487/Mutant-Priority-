@@ -1,0 +1,4 @@
+# comment line, should be ignored
+packages:
+  - 'packages/*'
+  - "tools/cli"

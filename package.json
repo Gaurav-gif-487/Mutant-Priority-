@@ -1,0 +1,40 @@
+{
+  "name": "mutant-priority",
+  "version": "0.1.0",
+  "description": "Evidence-grounded mutant/test prioritization for JS/TS repos. Ranks files by fan-out (not depth) and lets you measure, on your own repo, whether that ranking actually catches more mutants per unit budget.",
+  "keywords": [
+    "mutation-testing",
+    "mutant",
+    "test-prioritization",
+    "stryker",
+    "code-quality",
+    "test-suite",
+    "static-analysis",
+    "ci"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "mutant-priority": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "test": "npm run build && node --test dist/*.test.js"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

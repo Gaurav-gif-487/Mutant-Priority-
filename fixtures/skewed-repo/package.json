@@ -1,0 +1,1 @@
+{ "name": "skewed-repo", "private": true, "type": "commonjs", "scripts": { "test": "node --test" } }

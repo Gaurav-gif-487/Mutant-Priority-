@@ -1,0 +1,30 @@
+#!/usr/bin/env sh
+# Copy this into YOUR repo as .husky/pre-commit (after `npx husky init`),
+# or wire the `npx mutant-priority precommit .` line into any other
+# pre-commit runner (lint-staged, pre-commit.com, a raw .git/hooks/pre-commit
+# script) — this file's only husky-specific line is the shebang/framework
+# boilerplate around it.
+#
+# What it does on every commit:
+#   1. Finds the files currently `git add`ed (staged) for this commit.
+#   2. Confirms the full test suite passes clean in the working tree.
+#   3. Samples a couple of real mutants per staged file and runs the tests
+#      most likely to catch them (via --impact, when a test-file-cmd is
+#      given — see README's "Test Impact Analysis" section) or the full
+#      suite otherwise.
+#   4. Blocks the commit (exit 1) if any mutant survives — i.e. you're
+#      about to commit a change with no test that would notice if part of
+#      it were silently wrong.
+#
+# This is deliberately narrow and fast: 1-2 mutants per staged file, not
+# the thorough, statistically-compared sample `validate` runs in CI. Treat
+# a pass here as "no obvious gap," not as "fully covered" — see `validate`
+# for the real comparison.
+#
+# --test-cmd / --entry are auto-detected from package.json if omitted;
+# pass them explicitly if your repo's layout doesn't match the defaults.
+# Add --impact --test-file-cmd "npx mocha {files}" (swap in your own
+# runner's per-file invocation) once you know it works on your repo, to
+# make this meaningfully faster than running the whole suite per mutant.
+
+npx mutant-priority precommit . --mutants-per-file 2 --timeout-ms 20000

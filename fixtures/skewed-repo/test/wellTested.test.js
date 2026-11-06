@@ -1,0 +1,9 @@
+const test = require("node:test");
+const assert = require("node:assert");
+const { classify } = require("../src/wellTested");
+test("zero", () => assert.strictEqual(classify(0), "zero"));
+test("small", () => assert.strictEqual(classify(5), "small"));
+test("large-high", () => assert.strictEqual(classify(20), "large"));
+test("large-low", () => assert.strictEqual(classify(-20), "large"));
+test("neg-one", () => assert.strictEqual(classify(-1), "neg-one"));
+test("other", () => assert.strictEqual(classify(-5), "other"));

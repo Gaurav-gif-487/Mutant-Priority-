@@ -1,0 +1,8 @@
+{
+  "name": "mylib",
+  "private": true,
+  "type": "commonjs",
+  "main": "lib/index.js",
+  "exports": "./lib/index.js",
+  "scripts": { "test": "node --test" }
+}
